@@ -65,6 +65,7 @@ function hello_dolly() {
 	//echo "src: " . WP_PLUGIN_URL ."/edcal_test.js";
 	//echo "<br>";
 	//echo basename(dirname(__FILE__)) ."/edcal_test.js";
+	echo path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/lib/qunit.js");
 
 	echo "
 		<h1 id='qunit-header'>Unit Tests</h1>

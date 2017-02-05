@@ -1,0 +1,103 @@
+<?php
+/**
+ * @package testing_suite_for_hello_dolly
+ * @version 1.0
+ */
+/*
+Plugin Name: Testing suite for Hello Dolly
+Plugin URI: http://gabrielmaldonado.me
+Description: This plugin is an experiment to test Qunit and PHPUnit with Hello Dolly and learn from the experience.
+Author: Gabriel Maldonado
+Version: 1.0
+Author URI: http://gabrielmaldonado.me
+*/
+
+// Enqueueing unit Qunit
+wp_enqueue_script( "qunit", path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/lib/qunit.js"), array( 'jquery' ) ); //parece que qunit si se ha cargado.
+
+wp_enqueue_script( "edcal-test", path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/edcal_test.js"), array( 'jquery' ) );
+//http://www.example.dev/wp-content/plugins/plugins/edcal_test.js 
+//wp_enqueue_script( "edcal-test", basename(dirname(__FILE__))."/edcal_test.js", array("jquery") );
+
+function hello_dolly_get_lyric() {
+	/** These are the lyrics to Hello Dolly */
+	$lyrics = "Hello, Dolly
+Well, hello, Dolly
+It's so nice to have you back where you belong
+You're lookin' swell, Dolly
+I can tell, Dolly
+You're still glowin', you're still crowin'
+You're still goin' strong
+We feel the room swayin'
+While the band's playin'
+One of your old favourite songs from way back when
+So, take her wrap, fellas
+Find her an empty lap, fellas
+Dolly'll never go away again
+Hello, Dolly
+Well, hello, Dolly
+It's so nice to have you back where you belong
+You're lookin' swell, Dolly
+I can tell, Dolly
+You're still glowin', you're still crowin'
+You're still goin' strong
+We feel the room swayin'
+While the band's playin'
+One of your old favourite songs from way back when
+Golly, gee, fellas
+Find her a vacant knee, fellas
+Dolly'll never go away
+Dolly'll never go away
+Dolly'll never go away again";
+
+	// Here we split it into lines
+	$lyrics = explode( "\n", $lyrics );
+
+	// And then randomly choose a line
+	return wptexturize( $lyrics[ mt_rand( 0, count( $lyrics ) - 1 ) ] );
+}
+
+// This just echoes the chosen line, we'll position it later
+function hello_dolly() {
+	$chosen = hello_dolly_get_lyric();
+	echo "<p id='dolly'>$chosen</p>";
+	/*echo "src: " . path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/edcal_test.js");*/
+	//echo "src: " . WP_PLUGIN_URL ."/edcal_test.js";
+	//echo "<br>";
+	//echo basename(dirname(__FILE__)) ."/edcal_test.js";
+
+	echo "
+		<h1 id='qunit-header'>Unit Tests</h1>
+		<p id='qunit-file-checks'> </p>
+		<h2 id='qunit-banner'></h2>
+    	<div id='qunit-testrunner-toolbar'></div>
+    	<h2 id='qunit-userAgent'></h2>
+    	<ol id='qunit-tests'></ol>
+    	<div id='qunit-fixture'>test markup</div>
+	";
+}
+
+// Now we set that function up to execute when the admin_notices action is called
+add_action( 'admin_notices', 'hello_dolly' );
+
+// We need some CSS to position the paragraph
+function dolly_css() {
+	// This makes sure that the positioning is also good for right-to-left languages
+	$x = is_rtl() ? 'left' : 'right';
+
+	echo "
+	<style type='text/css'>
+	#dolly {
+		float: $x;
+		padding-$x: 15px;
+		padding-top: 5px;		
+		margin: 0;
+		font-size: 11px;
+	}
+	</style>
+	";
+}
+
+add_action( 'admin_head', 'dolly_css' );
+
+?>

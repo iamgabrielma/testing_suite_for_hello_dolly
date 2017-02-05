@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 	// JS file check
-	jQuery('#qunit-file-checks').append('edcal_test.js is loaded');
+	jQuery('#qunit-file-check').append('edcal_test.js is loaded');
 
 });
 

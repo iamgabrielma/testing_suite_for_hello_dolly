@@ -6,18 +6,17 @@
 /*
 Plugin Name: Testing suite for Hello Dolly
 Plugin URI: http://gabrielmaldonado.me
-Description: This plugin is an experiment to test Qunit and PHPUnit with Hello Dolly and learn from the experience.
+Description: This plugin is an experiment to test Qunit and PHPUnit with Hello Dolly and learn from the experience. The original plugin can be found here: <a href="https://wordpress.org/plugins/hello-dolly">Hello Dolly</a>
 Author: Gabriel Maldonado
 Version: 1.0
 Author URI: http://gabrielmaldonado.me
 */
 
-// Enqueueing unit Qunit
-wp_enqueue_script( "qunit", path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/lib/qunit.js"), array( 'jquery' ) ); //parece que qunit si se ha cargado.
+// Enqueueing QUnit
+wp_enqueue_script( "qunit", path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/lib/qunit.js"), array( 'jquery' ) );
 
+// Enqueueing our JS files
 wp_enqueue_script( "edcal-test", path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/edcal_test.js"), array( 'jquery' ) );
-//http://www.example.dev/wp-content/plugins/plugins/edcal_test.js 
-//wp_enqueue_script( "edcal-test", basename(dirname(__FILE__))."/edcal_test.js", array("jquery") );
 
 function hello_dolly_get_lyric() {
 	/** These are the lyrics to Hello Dolly */
@@ -61,15 +60,11 @@ Dolly'll never go away again";
 function hello_dolly() {
 	$chosen = hello_dolly_get_lyric();
 	echo "<p id='dolly'>$chosen</p>";
-	/*echo "src: " . path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/edcal_test.js");*/
-	//echo "src: " . WP_PLUGIN_URL ."/edcal_test.js";
-	//echo "<br>";
-	//echo basename(dirname(__FILE__)) ."/edcal_test.js";
-	echo path_join(WP_PLUGIN_URL, basename( dirname( __FILE__ ) )."/lib/qunit.js");
 
+	// Echoes QUnit information
 	echo "
 		<h1 id='qunit-header'>Unit Tests</h1>
-		<p id='qunit-file-checks'> </p>
+		<p id='qunit-file-check'> </p>
 		<h2 id='qunit-banner'></h2>
     	<div id='qunit-testrunner-toolbar'></div>
     	<h2 id='qunit-userAgent'></h2>
